@@ -2,5 +2,30 @@ module: loading 'cuda/12.2.2'
 module: cuda: To use: module load gcc/10.2
 module: loading 'gcc/10.2'
 module: gcc: "Note: loading the gcc module overrides the gcc version on the system.  If you want to revert to the version of gcc provided by the OS, unload the gcc module."
-Importer error status: An unknown error occurred.
-slurmstepd: error: Detected 1 oom-kill event(s) in StepId=12186968.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
+==14074== NVPROF is profiling process 14074, command: ./a.out
+==14074== Profiling application: ./a.out
+==14074== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   71.37%  41.6183s    152000  273.80us  1.0560us  9.3029ms  [CUDA memcpy HtoD]
+                   28.28%  16.4886s    136000  121.24us  32.256us  1.9154ms  MatrixVectorProduct(double*, double*, double*, int, int)
+                    0.36%  207.45ms    136000  1.5250us  1.2800us  5.7590us  [CUDA memcpy DtoH]
+      API calls:   76.47%  88.5592s    272000  325.58us  20.301us  26.239ms  cudaMemcpyAsync
+                   12.57%  14.5578s     48000  303.29us  3.5760us  37.012ms  cudaFree
+                    7.22%  8.36660s     48000  174.30us  2.4050us  62.309ms  cudaMalloc
+                    1.87%  2.17072s    136000  15.961us  4.9770us  89.290ms  cudaLaunchKernel
+                    0.73%  848.06ms    136000  6.2350us  1.3390us  93.503ms  cudaStreamCreate
+                    0.40%  461.41ms    136000  3.3920us  1.5960us  13.068ms  cudaStreamDestroy
+                    0.29%  333.14ms     16000  20.821us  13.706us  13.910ms  cudaMemcpy
+                    0.16%  188.13ms     32000  5.8790us  2.0890us  13.570ms  cudaDeviceSynchronize
+                    0.11%  132.50ms     32000  4.1400us  2.6240us  13.782ms  cudaEventRecord
+                    0.08%  89.527ms     32000  2.7970us     497ns  13.704ms  cudaEventCreate
+                    0.05%  53.740ms     16000  3.3580us  1.8350us  13.262ms  cudaEventElapsedTime
+                    0.03%  40.121ms     32000  1.2530us     379ns  587.03us  cudaEventDestroy
+                    0.00%  605.12us       114  5.3080us     118ns  312.64us  cuDeviceGetAttribute
+                    0.00%  17.825us         1  17.825us  17.825us  17.825us  cuDeviceGetName
+                    0.00%  4.1950us         1  4.1950us  4.1950us  4.1950us  cuDeviceGetPCIBusId
+                    0.00%  1.4700us         3     490ns     177ns  1.0780us  cuDeviceGetCount
+                    0.00%     577ns         2     288ns     151ns     426ns  cuDeviceGet
+                    0.00%     441ns         1     441ns     441ns     441ns  cuModuleGetLoadingMode
+                    0.00%     380ns         1     380ns     380ns     380ns  cuDeviceTotalMem
+                    0.00%     210ns         1     210ns     210ns     210ns  cuDeviceGetUuid

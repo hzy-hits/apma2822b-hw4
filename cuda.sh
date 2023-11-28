@@ -10,7 +10,7 @@
 # Request 1 CPU core
 #SBATCH -n 1
 
-#SBATCH -t 00:05:00
+#SBATCH -t 00:30:00
 #SBATCH -o with_gpu.out
 #SBATCH -e with_gpu.err
 
@@ -23,4 +23,5 @@ nvidia-smi
 # Compile CUDA program and run
 #nvcc -arch sm_20 vecadd.cu -o vecadd
 nvcc -O2 -std=c++11 hw4.cu -o a.out
+nvprof ./a.out
 nsys profile ./a.out

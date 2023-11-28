@@ -3,8 +3,9 @@
 #include "debug.cuh"
 #include <memory>
 #include <fstream>
+#include <random>
 const int warpSize = 32;
-const int BLOCK_SIZE = 256; // 设置固定的block大小为1024
+const int BLOCK_SIZE = 1024; // 设置固定的block大小为1024
 
 __device__ double atomicAddDouble(double *address, double val)
 {
@@ -75,6 +76,8 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
     int warpCount = (blockDim.x) / warpSize;    // 计算单个warp数量
     int rowsPerWarp = max(1, rows / warpCount); // 每个warp处理的行数
 
+
+    __syncthreads();
     int extraRows = rows % warpCount; // 不能均匀分配的额外行数
 
     int startRow = warpId * rowsPerWarp + min(warpId, extraRows);
@@ -101,27 +104,48 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
 void init_matrix(std::vector<double> &matrix, int row, int col)
 {
     matrix.clear();
+    std::random_device rd;  // 随机数种子
+    std::mt19937 gen(rd()); // 使用Mersenne Twister算法的生成器
+                            // 定义[0, 1)范围的均匀分布
+    std::uniform_real_distribution<> distrib(0.0, 0.01);
     for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < col; j++)
         {
-            if (i == j)
-            {
-                matrix.push_back(1);
-            }
-            else
-            {
-                matrix.push_back(0);
-            }
+
+            matrix.push_back(distrib(gen));
+
+            // if (i == j)
+            // {
+            //     matrix.push_back(1);
+            // }
+            // else
+            // {
+            //     matrix.push_back(0);
+            // }
         }
     }
 }
 void init_vector(std::vector<double> &vector, int row)
 {
     vector.clear();
+    std::random_device rd;  // 随机数种子
+    std::mt19937 gen(rd()); // 使用Mersenne Twister算法的生成器
+
+    // 定义[0, 1)范围的均匀分布
+    std::uniform_real_distribution<> distrib(0.0, 0.01);
+
     for (int i = 0; i < row; i++)
     {
-        vector.push_back(1);
+        vector.push_back(distrib(gen));
+    }
+}
+void init_result(std::vector<double> &result, int row)
+{
+    result.clear();
+    for (int i = 0; i < row; i++)
+    {
+        result.push_back(0);
     }
 }
 void initCudaMemory(double **d_ptr, const std::vector<double> &host_data)
@@ -200,7 +224,12 @@ void processMatrixInStreams(const std::vector<double> &matrix,
 int main()
 {
     std::cout << "Program started." << std::endl;
+    // 创建随机数生成器
+    std::random_device rd;
+    std::mt19937 gen(rd());
 
+    // 定义范围为1000到2000的均匀分布
+    std::uniform_int_distribution<> distrib(1000, 2048);
     // 打开CSV文件用于写入
     std::ofstream outFile("results.csv");
     // 写入标题行
@@ -209,20 +238,20 @@ int main()
         outFile << "M,Time(ms)\n";
     }
 
-    const int N = 1048;
-    const int K = 1048;
     const int numTrials = 1000; // 设置重复执行的次数
 
     std::vector<double> matrix, vector, result;
-    init_matrix(matrix, N, K);
-    init_vector(vector, K);
 
     for (int M = 1; M <= 16; M++)
     {
         double totalTime = 0;
         for (int trial = 0; trial < numTrials; ++trial)
         {
-            init_vector(result, N);
+            int N = distrib(gen);
+            int K = distrib(gen);
+            init_matrix(matrix, N, K);
+            init_vector(vector, K);
+            init_result(result, N);
             float time = 0;
             processMatrixInStreams(matrix, vector, result, M, N, K, time);
             totalTime += time;
