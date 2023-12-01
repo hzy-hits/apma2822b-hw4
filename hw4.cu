@@ -6,7 +6,7 @@
 #include <fstream>
 #include <random>
 const int warpSize = 32;
-const int BLOCK_SIZE = 1024; // 设置固定的block大小为1024
+const int BLOCK_SIZE = 256; // 设置固定的block大小为1024
 
 __device__ double atomicAddDouble(double *address, double val)
 {
@@ -76,14 +76,14 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
     int warpId = globalThreadIdx / warpSize;    // 计算全局warp ID
     int warpCount = (blockDim.x) / warpSize;    // 计算单个warp数量
     int rowsPerWarp = max(1, rows / warpCount); // 每个warp处理的行数
-    // __shared__ double shared_vector[BLOCK_SIZE];
-    // for (int i = 0; i < cols; i += warpSize)
-    // {
-    //     if (threadIdx.x + i < cols)
-    //     {
-    //         shared_vector[threadIdx.x + i] = vector[threadIdx.x + i];
-    //     }
-    // }
+    __shared__ double shared_vector[BLOCK_SIZE];
+    for (int i = 0; i < cols; i += warpSize)
+    {
+        if (threadIdx.x + i < cols)
+        {
+            shared_vector[threadIdx.x + i] = vector[threadIdx.x + i];
+        }
+    }
     __syncthreads();
     int extraRows = rows % warpCount; // 不能均匀分配的额外行数
 
@@ -187,13 +187,13 @@ void processMatrixInStreams(const std::vector<double> &matrix,
 
     // 复制数据到设备
     cudaMemcpy(d_vector, vector.data(), vector.size() * sizeof(double), cudaMemcpyHostToDevice);
-    auto cpu_start = std::chrono::high_resolution_clock::now();
+
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
     cudaDeviceSynchronize();
     cudaEventRecord(start);
-
+    auto cpu_start = std::chrono::high_resolution_clock::now();
     // 在每个流上启动核函数
     for (int i = 0; i < M; ++i)
     {
@@ -216,6 +216,7 @@ void processMatrixInStreams(const std::vector<double> &matrix,
     auto end = std::chrono::high_resolution_clock::now();
     cudaEventRecord(stop);
     std::chrono::duration<double> duration = end - cpu_start;
+    cputime = 0;
     cputime = duration.count() * 1000;
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
@@ -277,12 +278,12 @@ int main()
         }
 
         std::cout << "M: " << M << "\t"
-                  << "CPU-time: " << totalCPUTime << "\t"
-                  << "GPU-time: " << totalGPUTime << std::endl;
+                  << "CPU-time: " << totalCPUTime / numTrials << "\t"
+                  << "GPU-time: " << totalGPUTime / numTrials << std::endl;
 
         std::cout << "sum: " << sum << std::endl;
         // 将M和time写入到文件
-        outFile << M << "," << totalCPUTime << "," << totalGPUTime << "\n";
+        outFile << M << "," << totalCPUTime / numTrials << "," << totalGPUTime / numTrials << "\n";
     }
 
     // 关闭文件
