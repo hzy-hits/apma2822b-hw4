@@ -185,6 +185,10 @@ void processMatrixInStreams(const std::vector<double> &matrix,
     cudaMalloc(&d_vector, vector.size() * sizeof(double));
     cudaMalloc(&d_result, result.size() * sizeof(double));
 
+    cudaHostRegister(const_cast<double *>(matrix.data()), matrix.size() * sizeof(double), 0x00);
+    cudaHostRegister(const_cast<double *>(vector.data()), vector.size() * sizeof(double), 0x00);
+
+    cudaHostRegister(result.data(), result.size() * sizeof(double), cudaHostRegisterDefault);
     // 复制数据到设备
     cudaMemcpy(d_vector, vector.data(), vector.size() * sizeof(double), cudaMemcpyHostToDevice);
 
@@ -228,6 +232,9 @@ void processMatrixInStreams(const std::vector<double> &matrix,
     {
         cudaStreamDestroy(streams[i]);
     }
+    cudaHostUnregister(const_cast<double *>(matrix.data()));
+    cudaHostUnregister(const_cast<double *>(vector.data()));
+    cudaHostUnregister(result.data());
     cudaFree(d_matrix);
     cudaFree(d_vector);
     cudaFree(d_result);
