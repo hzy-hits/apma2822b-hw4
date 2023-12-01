@@ -1,4 +1,5 @@
 #include <iostream>
+#include <chrono>
 #include <cmath>
 #include "debug.cuh"
 #include <memory>
@@ -75,8 +76,14 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
     int warpId = globalThreadIdx / warpSize;    // 计算全局warp ID
     int warpCount = (blockDim.x) / warpSize;    // 计算单个warp数量
     int rowsPerWarp = max(1, rows / warpCount); // 每个warp处理的行数
-
-
+    // __shared__ double shared_vector[BLOCK_SIZE];
+    // for (int i = 0; i < cols; i += warpSize)
+    // {
+    //     if (threadIdx.x + i < cols)
+    //     {
+    //         shared_vector[threadIdx.x + i] = vector[threadIdx.x + i];
+    //     }
+    // }
     __syncthreads();
     int extraRows = rows % warpCount; // 不能均匀分配的额外行数
 
@@ -107,7 +114,7 @@ void init_matrix(std::vector<double> &matrix, int row, int col)
     std::random_device rd;  // 随机数种子
     std::mt19937 gen(rd()); // 使用Mersenne Twister算法的生成器
                             // 定义[0, 1)范围的均匀分布
-    std::uniform_real_distribution<> distrib(0.0, 0.01);
+    std::uniform_real_distribution<> distrib(0.0, 0.1);
     for (int i = 0; i < row; i++)
     {
         for (int j = 0; j < col; j++)
@@ -138,6 +145,7 @@ void init_vector(std::vector<double> &vector, int row)
     for (int i = 0; i < row; i++)
     {
         vector.push_back(distrib(gen));
+        // vector.push_back(1);
     }
 }
 void init_result(std::vector<double> &result, int row)
@@ -158,7 +166,7 @@ void initCudaMemory(double **d_ptr, const std::vector<double> &host_data)
 void processMatrixInStreams(const std::vector<double> &matrix,
                             const std::vector<double> &vector,
                             std::vector<double> &result,
-                            int M, int numRows, int numCols, float &time)
+                            int M, int numRows, int numCols, float &cputime, float &gputime)
 {
     // 确保矩阵的大小适合分块
     int rowsPerBlock = numRows / M;  // 每个块的行数
@@ -179,6 +187,7 @@ void processMatrixInStreams(const std::vector<double> &matrix,
 
     // 复制数据到设备
     cudaMemcpy(d_vector, vector.data(), vector.size() * sizeof(double), cudaMemcpyHostToDevice);
+    auto cpu_start = std::chrono::high_resolution_clock::now();
     cudaEvent_t start, stop;
     cudaEventCreate(&start);
     cudaEventCreate(&stop);
@@ -204,13 +213,15 @@ void processMatrixInStreams(const std::vector<double> &matrix,
 
     // 等待所有流完成
     cudaDeviceSynchronize();
+    auto end = std::chrono::high_resolution_clock::now();
     cudaEventRecord(stop);
-
+    std::chrono::duration<double> duration = end - cpu_start;
+    cputime = duration.count() * 1000;
     float milliseconds = 0;
     cudaEventElapsedTime(&milliseconds, start, stop);
     cudaEventDestroy(start);
     cudaEventDestroy(stop);
-    time = milliseconds;
+    gputime = milliseconds;
     // 释放资源
     for (int i = 0; i < M; ++i)
     {
@@ -235,7 +246,7 @@ int main()
     // 写入标题行
     if (outFile.is_open())
     {
-        outFile << "M,Time(ms)\n";
+        outFile << "M,CPU-Time(ms),GPU-Time(ms)\n";
     }
 
     const int numTrials = 1000; // 设置重复执行的次数
@@ -244,7 +255,8 @@ int main()
 
     for (int M = 1; M <= 16; M++)
     {
-        double totalTime = 0;
+        double totalGPUTime = 0;
+        double totalCPUTime = 0;
         for (int trial = 0; trial < numTrials; ++trial)
         {
             int N = distrib(gen);
@@ -252,22 +264,25 @@ int main()
             init_matrix(matrix, N, K);
             init_vector(vector, K);
             init_result(result, N);
-            float time = 0;
-            processMatrixInStreams(matrix, vector, result, M, N, K, time);
-            totalTime += time;
+            float gputime = 0;
+            float cputime = 0;
+            processMatrixInStreams(matrix, vector, result, M, N, K, cputime, gputime);
+            totalGPUTime += gputime;
+            totalCPUTime += cputime;
         }
         float sum = 0;
         for (const auto element : result)
         {
             sum += element;
         }
-        float avgTime = totalTime;
+
         std::cout << "M: " << M << "\t"
-                  << "time: " << avgTime << std::endl;
+                  << "CPU-time: " << totalCPUTime << "\t"
+                  << "GPU-time: " << totalGPUTime << std::endl;
 
         std::cout << "sum: " << sum << std::endl;
         // 将M和time写入到文件
-        outFile << M << "," << avgTime << "\n";
+        outFile << M << "," << totalCPUTime << "," << totalGPUTime << "\n";
     }
 
     // 关闭文件
