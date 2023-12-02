@@ -76,14 +76,20 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
     int warpId = globalThreadIdx / warpSize;    // 计算全局warp ID
     int warpCount = (blockDim.x) / warpSize;    // 计算单个warp数量
     int rowsPerWarp = max(1, rows / warpCount); // 每个warp处理的行数
-    __shared__ double shared_vector[BLOCK_SIZE];
-    for (int i = 0; i < cols; i += warpSize)
+    extern __shared__ double shared_vector[];
+    int threadId = threadIdx.x;
+    if (threadId < cols)
     {
-        if (threadIdx.x + i < cols)
-        {
-            shared_vector[threadIdx.x + i] = vector[threadIdx.x + i];
-        }
+        shared_vector[threadId] = vector[threadId];
     }
+    // __shared__ double shared_vector[BLOCK_SIZE];
+    // for (int i = 0; i < cols; i += warpSize)
+    // {
+    //     if (threadIdx.x + i < cols)
+    //     {
+    //         shared_vector[threadIdx.x + i] = vector[threadIdx.x + i];
+    //     }
+    // }
     __syncthreads();
     int extraRows = rows % warpCount; // 不能均匀分配的额外行数
 
@@ -95,7 +101,7 @@ __global__ void MatrixVectorProduct(double *matrix, double *vector, double *resu
         double sum = 0;
         for (int col = threadIdx.x % warpSize; col < cols; col += warpSize)
         {
-            sum += matrix[row * cols + col] * vector[col];
+            sum += matrix[row * cols + col] * shared_vector[col];
         }
         for (int offset = warpSize / 2; offset > 0; offset /= 2)
         {
@@ -187,8 +193,8 @@ void processMatrixInStreams(const std::vector<double> &matrix,
 
     cudaHostRegister(const_cast<double *>(matrix.data()), matrix.size() * sizeof(double), 0x00);
     cudaHostRegister(const_cast<double *>(vector.data()), vector.size() * sizeof(double), 0x00);
-
     cudaHostRegister(result.data(), result.size() * sizeof(double), cudaHostRegisterDefault);
+
     // 复制数据到设备
     cudaMemcpy(d_vector, vector.data(), vector.size() * sizeof(double), cudaMemcpyHostToDevice);
 
@@ -207,8 +213,8 @@ void processMatrixInStreams(const std::vector<double> &matrix,
                         matrix.data() + startRow * numCols,
                         rowsToProcess * numCols * sizeof(double),
                         cudaMemcpyHostToDevice, streams[i]);
-        MatrixVectorProduct<<<1, BLOCK_SIZE, 0, streams[i]>>>(d_matrix + startRow * numCols,
-                                                              d_vector, d_result + startRow, rowsToProcess, numCols);
+        MatrixVectorProduct<<<1, BLOCK_SIZE, numCols * sizeof(double), streams[i]>>>(d_matrix + startRow * numCols,
+                                                                                     d_vector, d_result + startRow, rowsToProcess, numCols);
         cudaMemcpyAsync(result.data() + startRow,
                         d_result + startRow,
                         rowsToProcess * sizeof(double),
@@ -261,7 +267,7 @@ int main()
 
     std::vector<double> matrix, vector, result;
 
-    for (int M = 1; M <= 16; M++)
+    for (int M = 1; M <= 8; M++)
     {
         double totalGPUTime = 0;
         double totalCPUTime = 0;

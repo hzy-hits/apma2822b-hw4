@@ -10,7 +10,7 @@
 # Request 1 CPU core
 #SBATCH -n 1
 
-#SBATCH -t 00:30:00
+#SBATCH -t 01:30:00
 #SBATCH -o with_gpu.out
 #SBATCH -e with_gpu.err
 

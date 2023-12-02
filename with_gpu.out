@@ -1,13 +1,13 @@
 ## SLURM PROLOG ###############################################################
-##    Job ID : 12240001
+##    Job ID : 12241814
 ##  Job Name : cuda.sh
 ##  Nodelist : gpu2004
 ##      CPUs : 1
 ##   Mem/CPU : 2800 MB
 ## Directory : /oscar/home/zhuan160/APMA2822B/hw4
-##   Job Started : Fri Dec  1 17:42:56 EST 2023
+##   Job Started : Fri Dec  1 20:28:21 EST 2023
 ###############################################################################
-Fri Dec  1 17:42:56 2023       
+Fri Dec  1 20:28:21 2023       
 +---------------------------------------------------------------------------------------+
 | NVIDIA-SMI 535.54.03              Driver Version: 535.54.03    CUDA Version: 12.2     |
 |-----------------------------------------+----------------------+----------------------+
@@ -16,7 +16,7 @@ Fri Dec  1 17:42:56 2023
 |                                         |                      |               MIG M. |
 |=========================================+======================+======================|
 |   0  Quadro RTX 6000                Off | 00000000:60:00.0 Off |                  Off |
-| 33%   25C    P8               5W / 260W |     10MiB / 24576MiB |      0%      Default |
+| 33%   24C    P8               4W / 260W |     10MiB / 24576MiB |      0%      Default |
 |                                         |                      |                  N/A |
 +-----------------------------------------+----------------------+----------------------+
                                                                                          
@@ -28,74 +28,42 @@ Fri Dec  1 17:42:56 2023
 |    0   N/A  N/A     15139      G   X                                             8MiB |
 +---------------------------------------------------------------------------------------+
 Program started.
-M: 1	CPU-time: 10.9724	GPU-time: 10.9908
-sum: 471.937
-M: 2	CPU-time: 1.9369	GPU-time: 0
-sum: 521.84
-M: 3	CPU-time: 1.81953	GPU-time: 0
-sum: 531.684
-M: 4	CPU-time: 1.70699	GPU-time: 0
-sum: 512.854
-M: 5	CPU-time: 1.50809	GPU-time: 0
-sum: 474.758
-M: 6	CPU-time: 2.49778	GPU-time: 0
-sum: 814.597
-M: 7	CPU-time: 1.13021	GPU-time: 0
-sum: 354.801
-M: 8	CPU-time: 1.45847	GPU-time: 0
-sum: 469.234
-M: 9	CPU-time: 1.85918	GPU-time: 0
-sum: 588.251
-M: 10	CPU-time: 2.25648	GPU-time: 0
-sum: 726.346
-M: 11	CPU-time: 2.12765	GPU-time: 0
-sum: 682.846
-M: 12	CPU-time: 2.39447	GPU-time: 0
-sum: 777.029
-M: 13	CPU-time: 1.19632	GPU-time: 0
-sum: 368.66
-M: 14	CPU-time: 1.33233	GPU-time: 0
-sum: 416.957
-M: 15	CPU-time: 1.97215	GPU-time: 0
-sum: 647.866
-M: 16	CPU-time: 1.60858	GPU-time: 0
-sum: 524.904
+M: 1	CPU-time: 2.62467	GPU-time: 0.0436726
+sum: 117.261
+M: 2	CPU-time: 2.10052	GPU-time: 0.0294602
+sum: 73.8758
+M: 3	CPU-time: 1.95562	GPU-time: 0.00855194
+sum: 90.7942
+M: 4	CPU-time: 1.9061	GPU-time: 0.00268339
+sum: 128.932
+M: 5	CPU-time: 1.86015	GPU-time: 0.00862726
+sum: 107.514
+M: 6	CPU-time: 1.81928	GPU-time: 0.0377532
+sum: 109.469
+M: 7	CPU-time: 1.86377	GPU-time: 0.0358783
+sum: 90.25
+M: 8	CPU-time: 1.85606	GPU-time: 0.0493263
+sum: 138.576
 Program ended.
 Program started.
-M: 1	CPU-time: 5.37778	GPU-time: 5.3975
-sum: 437.197
-M: 2	CPU-time: 3.03784	GPU-time: 0
-sum: 826.847
-M: 3	CPU-time: 1.19737	GPU-time: 0
-sum: 337.475
-M: 4	CPU-time: 1.09865	GPU-time: 0
-sum: 329.483
-M: 5	CPU-time: 2.43358	GPU-time: 0
-sum: 766.087
-M: 6	CPU-time: 1.60444	GPU-time: 0
-sum: 490.235
-M: 7	CPU-time: 1.90363	GPU-time: 0
-sum: 633.424
-M: 8	CPU-time: 1.62151	GPU-time: 0
-sum: 513.999
-M: 9	CPU-time: 1.68521	GPU-time: 0
-sum: 531.99
-M: 10	CPU-time: 1.10179	GPU-time: 0
-sum: 349.892
-M: 11	CPU-time: 2.23055	GPU-time: 0
-sum: 731.573
-M: 12	CPU-time: 1.45046	GPU-time: 0
-sum: 434.559
-M: 13	CPU-time: 1.4409	GPU-time: 0
-sum: 452.426
-M: 14	CPU-time: 1.38528	GPU-time: 0
-sum: 436.709
-M: 15	CPU-time: 2.66953	GPU-time: 0
-sum: 886.911
-M: 16	CPU-time: 2.05067	GPU-time: 0
-sum: 667.42
+M: 1	CPU-time: 2.65866	GPU-time: 0.117665
+sum: 119.387
+M: 2	CPU-time: 2.14723	GPU-time: 0.0707407
+sum: 124.54
+M: 3	CPU-time: 1.98375	GPU-time: 0.0893156
+sum: 65.9751
+M: 4	CPU-time: 1.87585	GPU-time: 0.0675293
+sum: 111.284
+M: 5	CPU-time: 1.85887	GPU-time: 0.0682198
+sum: 109.221
+M: 6	CPU-time: 1.81287	GPU-time: 0.0656719
+sum: 116.784
+M: 7	CPU-time: 1.80078	GPU-time: 0.0709629
+sum: 94.3287
+M: 8	CPU-time: 1.81101	GPU-time: 0.0769823
+sum: 123.956
 Program ended.
-Generating '/tmp/nsys-report-b890.qdstrm'
-[1/1] [0%                          ] report6.nsys-rep[1/1] [0%                          ] report6.nsys-rep[1/1] [===========50%              ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [10%                         ] report6.nsys-rep[1/1] [7%                          ] report6.nsys-rep[1/1] [===22%                      ] report6.nsys-rep[1/1] [===23%                      ] report6.nsys-rep[1/1] [===24%                      ] report6.nsys-rep[1/1] [====25%                     ] report6.nsys-rep[1/1] [=====30%                    ] report6.nsys-rep[1/1] [=====31%                    ] report6.nsys-rep[1/1] [======33%                   ] report6.nsys-rep[1/1] [=======36%                  ] report6.nsys-rep[1/1] [=======37%                  ] report6.nsys-rep[1/1] [=======38%                  ] report6.nsys-rep[1/1] [=======39%                  ] report6.nsys-rep[1/1] [========40%                 ] report6.nsys-rep[1/1] [========41%                 ] report6.nsys-rep[1/1] [========42%                 ] report6.nsys-rep[1/1] [=========43%                ] report6.nsys-rep[1/1] [=========44%                ] report6.nsys-rep[1/1] [=========45%                ] report6.nsys-rep[1/1] [=========46%                ] report6.nsys-rep[1/1] [==========47%               ] report6.nsys-rep[1/1] [==========48%               ] report6.nsys-rep[1/1] [==========49%               ] report6.nsys-rep[1/1] [===========50%              ] report6.nsys-rep[1/1] [===========51%              ] report6.nsys-rep[1/1] [===========52%              ] report6.nsys-rep[1/1] [===========53%              ] report6.nsys-rep[1/1] [============54%             ] report6.nsys-rep[1/1] [============55%             ] report6.nsys-rep[1/1] [============56%             ] report6.nsys-rep[1/1] [============57%             ] report6.nsys-rep[1/1] [=============58%            ] report6.nsys-rep[1/1] [=============59%            ] report6.nsys-rep[1/1] [===================82%      ] report6.nsys-rep[1/1] [=======================94%  ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep
+Generating '/tmp/nsys-report-b223.qdstrm'
+[1/1] [0%                          ] report6.nsys-rep[1/1] [0%                          ] report6.nsys-rep[1/1] [===========50%              ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================99% ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [0%                          ] report6.nsys-rep[1/1] [8%                          ] report6.nsys-rep[1/1] [7%                          ] report6.nsys-rep[1/1] [6%                          ] report6.nsys-rep[1/1] [13%                         ] report6.nsys-rep[1/1] [12%                         ] report6.nsys-rep[1/1] [11%                         ] report6.nsys-rep[1/1] [=17%                        ] report6.nsys-rep[1/1] [=16%                        ] report6.nsys-rep[1/1] [=15%                        ] report6.nsys-rep[1/1] [14%                         ] report6.nsys-rep[1/1] [==18%                       ] report6.nsys-rep[1/1] [=17%                        ] report6.nsys-rep[1/1] [==20%                       ] report6.nsys-rep[1/1] [==19%                       ] report6.nsys-rep[1/1] [==18%                       ] report6.nsys-rep[1/1] [==21%                       ] report6.nsys-rep[1/1] [==20%                       ] report6.nsys-rep[1/1] [===22%                      ] report6.nsys-rep[1/1] [==21%                       ] report6.nsys-rep[1/1] [==20%                       ] report6.nsys-rep[1/1] [==19%                       ] report6.nsys-rep[1/1] [==18%                       ] report6.nsys-rep[1/1] [=17%                        ] report6.nsys-rep[1/1] [==18%                       ] report6.nsys-rep[1/1] [==19%                       ] report6.nsys-rep[1/1] [==20%                       ] report6.nsys-rep[1/1] [==21%                       ] report6.nsys-rep[1/1] [===22%                      ] report6.nsys-rep[1/1] [===23%                      ] report6.nsys-rep[1/1] [===24%                      ] report6.nsys-rep[1/1] [====25%                     ] report6.nsys-rep[1/1] [====26%                     ] report6.nsys-rep[1/1] [====27%                     ] report6.nsys-rep[1/1] [====28%                     ] report6.nsys-rep[1/1] [=====29%                    ] report6.nsys-rep[1/1] [=====30%                    ] report6.nsys-rep[1/1] [=====31%                    ] report6.nsys-rep[1/1] [=====32%                    ] report6.nsys-rep[1/1] [======33%                   ] report6.nsys-rep[1/1] [======34%                   ] report6.nsys-rep[1/1] [======35%                   ] report6.nsys-rep[1/1] [=======36%                  ] report6.nsys-rep[1/1] [=======38%                  ] report6.nsys-rep[1/1] [=======39%                  ] report6.nsys-rep[1/1] [========40%                 ] report6.nsys-rep[1/1] [========41%                 ] report6.nsys-rep[1/1] [========42%                 ] report6.nsys-rep[1/1] [=========43%                ] report6.nsys-rep[1/1] [=========44%                ] report6.nsys-rep[1/1] [=========45%                ] report6.nsys-rep[1/1] [=========46%                ] report6.nsys-rep[1/1] [==========47%               ] report6.nsys-rep[1/1] [==========48%               ] report6.nsys-rep[1/1] [==========49%               ] report6.nsys-rep[1/1] [===========50%              ] report6.nsys-rep[1/1] [===========51%              ] report6.nsys-rep[1/1] [===========52%              ] report6.nsys-rep[1/1] [===========53%              ] report6.nsys-rep[1/1] [============54%             ] report6.nsys-rep[1/1] [============55%             ] report6.nsys-rep[1/1] [============56%             ] report6.nsys-rep[1/1] [============57%             ] report6.nsys-rep[1/1] [=============58%            ] report6.nsys-rep[1/1] [=============59%            ] report6.nsys-rep[1/1] [=============60%            ] report6.nsys-rep[1/1] [==============61%           ] report6.nsys-rep[1/1] [==============62%           ] report6.nsys-rep[1/1] [==============63%           ] report6.nsys-rep[1/1] [==============64%           ] report6.nsys-rep[1/1] [===============65%          ] report6.nsys-rep[1/1] [===============66%          ] report6.nsys-rep[1/1] [===============67%          ] report6.nsys-rep[1/1] [================68%         ] report6.nsys-rep[1/1] [================69%         ] report6.nsys-rep[1/1] [================70%         ] report6.nsys-rep[1/1] [================71%         ] report6.nsys-rep[1/1] [=================72%        ] report6.nsys-rep[1/1] [=================73%        ] report6.nsys-rep[1/1] [=================74%        ] report6.nsys-rep[1/1] [==================76%       ] report6.nsys-rep[1/1] [==================77%       ] report6.nsys-rep[1/1] [==================78%       ] report6.nsys-rep[1/1] [===================79%      ] report6.nsys-rep[1/1] [===================80%      ] report6.nsys-rep[1/1] [===================81%      ] report6.nsys-rep[1/1] [===================82%      ] report6.nsys-rep[1/1] [====================83%     ] report6.nsys-rep[1/1] [====================84%     ] report6.nsys-rep[1/1] [====================85%     ] report6.nsys-rep[1/1] [=====================86%    ] report6.nsys-rep[1/1] [=====================87%    ] report6.nsys-rep[1/1] [=====================88%    ] report6.nsys-rep[1/1] [======================90%   ] report6.nsys-rep[1/1] [======================91%   ] report6.nsys-rep[1/1] [======================92%   ] report6.nsys-rep[1/1] [=======================93%  ] report6.nsys-rep[1/1] [=======================94%  ] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep[1/1] [========================100%] report6.nsys-rep
 Generated:
     /oscar/home/zhuan160/APMA2822B/hw4/report6.nsys-rep
